@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
@@ -38,9 +39,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var resetButton: Button
 
 
-
-
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +66,9 @@ class MainActivity : AppCompatActivity() {
 
         //main text view with color
         mainText = findViewById<Border>(R.id.mainText)
-        mainText.setBackgroundColor(R.drawable.border)
+        //mainText.setBackgroundColor(R.drawable.border)
 
-
+        //mainText.setBackgroundColor(R.color.black)
 
         redSeek.isEnabled = false
         redText.isEnabled = false
@@ -142,10 +141,8 @@ class MainActivity : AppCompatActivity() {
 
                     override fun afterTextChanged(s: Editable?) {
                         // Update the SeekBar progress if the EditText text is a valid decimal number
-                        s?.toString()?.toDoubleOrNull()?.let {
-                            val progress = (it * 255).toInt()
-                            redSeek.progress = progress
-                        }
+                        val value = s?.toString()?.toFloatOrNull() ?: return
+                        redSeek.progress = (value * 255).toInt()
                     }
                 })
             } else {
@@ -284,7 +281,6 @@ class MainActivity : AppCompatActivity() {
                         count: Int,
                         after: Int
                     ) {
-                        // Do nothing
 
                     }
 
@@ -294,7 +290,6 @@ class MainActivity : AppCompatActivity() {
                         before: Int,
                         count: Int
                     ) {
-                        // Do nothing
 
                     }
 
@@ -317,7 +312,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        resetButton.setOnClickListener{
+        resetButton.setOnClickListener {
             redSeek.progress = 0
             blueSeek.progress = 0
             greenSeek.progress = 0
@@ -331,18 +326,20 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("ResourceAsColor")
     private fun updateColor(mainText: TextView, red: Int, green: Int, blue: Int) {
 
         var color = Color.rgb(red, green, blue)
 
-
+        //mainText.setBackgroundColor(R.color.black)
         if (red == 0 && blue == 0 && green == 0) {
-            mainText.setBackgroundColor(Color.WHITE)
+         mainText.setBackgroundColor(color)
         } else {
-            mainText.setBackgroundColor(color)
+           mainText.setBackgroundColor(color)
         }
     }
-}
+    }
+
 
 
 
